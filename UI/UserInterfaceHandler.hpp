@@ -4,8 +4,6 @@
 #include <stdexcept>    // runtime_error
 
 
-
-
 namespace UI
 {
   // User Interface Layer Interface class
@@ -13,8 +11,8 @@ namespace UI
   {
     public:
       // Exceptions
-      struct UIException  : std::runtime_error {using runtime_error::runtime_error;};
-      struct BadUIRequest : UIException        {using UIException  ::UIException;  };
+      struct   UIException  : std::runtime_error {using runtime_error::runtime_error;};
+      struct   BadUIRequest : UIException        {using UIException  ::UIException;  };
 
 
       // User Interface Factory, throws BadUIRequest
