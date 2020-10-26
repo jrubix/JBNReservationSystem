@@ -23,7 +23,7 @@ namespace UI
 
       // Operations, throws UIException
       virtual void launch() = 0;                                                               // must be virtual and pure
-
+      virtual void logo() = 0;
 
       // Interface class destructor
       virtual ~UserInterfaceHandler() noexcept = 0;                                            // must be virtual, best practice to be pure

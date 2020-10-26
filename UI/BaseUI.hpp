@@ -23,7 +23,7 @@ namespace UI
 
       // Operations
       void launch() override;
-      void logo();
+      void logo() override;
       // Destructor
       ~BaseUI() noexcept override;
 

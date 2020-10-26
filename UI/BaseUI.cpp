@@ -37,6 +37,7 @@ namespace UI
 
   // Operations
   void BaseUI::launch(){
+    
     logo();
     /*
     // 1) Fetch Role legal value list
