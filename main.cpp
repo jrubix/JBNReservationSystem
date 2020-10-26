@@ -4,6 +4,9 @@
 #include <new>          // bad_alloc
 #include <typeinfo>     // typeinfo.name()
 
+#include "UI/UserInterfaceHandler.hpp"
+
+
 int main( /*int argc, char argv[] */ ){
   try {
     std::cout << "\nJBN Hotel Reservation System Initializing ...\n\n";
@@ -15,8 +18,7 @@ int main( /*int argc, char argv[] */ ){
     std::cout << "\nInitialization completed successfully\n";
 
     char response;
-    do
-    {
+    do {
       std::cout << "Ready to transition into Operational State? (Q/Y/N) ";
       std::cin >> response;
       response = std::toupper( response, std::locale() );
@@ -30,21 +32,18 @@ int main( /*int argc, char argv[] */ ){
 
 
 
-  catch( const std::bad_alloc & ex )
-  {
+  catch( const std::bad_alloc & ex ){
     std::cerr << "Fatal:  Uncaught memory allocation exception\n\n"
               << ex.what() << '\n';
   }
 
-  catch( const std::exception & ex )
-  {
+  catch( const std::exception & ex ){
     std::cerr << "Fatal:  Uncaught standard exception\n"
               << typeid( ex ).name() << '\n'
               << ex.what() << '\n';
   }
 
-  catch( ... )
-  {
+  catch( ... ){
     std::cerr << "Fatal:  Uncaught (unknown type) exception\n";
   }
 }
