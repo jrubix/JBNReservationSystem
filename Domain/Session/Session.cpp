@@ -31,11 +31,9 @@ namespace  // anonymous (private) working area
 
   std::any askAvailableRoom(Domain::Session::SessionBase& session, const std::vector<std::string>& args)
   {
-	  std::string roomtype = "Queen";
-	  std::string roomprice = std::to_string(stoi(args[1]) * stoi(hotelControl->getprice(roomtype)));
-	  std::string results = "Queen - Room avialable for checking date \"" + args[0] + "\" for \"" + args[1] + " night and for "+ args[2] + " hotel Guest at "+ roomprice +" inquired by " + session._credentials.userName + '"';
-	  session._logger << "Available Room:  " + results;
-	  return results;
+    std::string room = hotelControl->askAvailableRoom(session._credentials.roles[0], args);
+    session._logger << "Available Rooms:\n\n" + room;
+	  return room;
   }
 
   std::any signOff(Domain::Session::SessionBase& session, const std::vector<std::string>& args)

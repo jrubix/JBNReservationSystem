@@ -22,7 +22,7 @@ namespace UI
 {
   // Default constructor
   SimpleUI::SimpleUI()
-  :  
+  :
     _loggerPtr     ( TechnicalServices::Logging::LoggerHandler::create()            ),
     _persistentData( TechnicalServices::Persistence::PersistenceHandler::instance() )
   {
@@ -141,17 +141,17 @@ namespace UI
         std::vector<std::string> parameters( 3 );
 
         std::cout << " Enter check_in_date:  ";  std::cin >> std::ws;  std::getline( std::cin, parameters[0] );
-        std::cout << " Enter night: ";  std::cin >> std::ws;  std::getline( std::cin, parameters[1] );
-        std::cout << " Enter hotelguest number:   ";  std::cin >> std::ws;  std::getline( std::cin, parameters[2] );
+        std::cout << " Enter # of nights: ";  std::cin >> std::ws;  std::getline( std::cin, parameters[1] );
+        std::cout << " Enter # of hotel guest's:   ";  std::cin >> std::ws;  std::getline( std::cin, parameters[2] );
 
         auto results = sessionControl->executeCommand( selectedCommand, parameters );
-		
+
         if( results.has_value() ) _logger << "Received reply: \"" + std::any_cast<const std::string &>( results ) + '"';
       }
-      
+
 	  ////////////////////for Reserving room/////////////////
-      else if( selectedCommand == "Reserve Room" ) 
-	    
+      else if( selectedCommand == "Reserve Room" )
+
 	  {
 		std::vector<std::string> parameters( 2 );
 
@@ -246,7 +246,7 @@ namespace UI
 
         } while (selection < 3);
       }
-	  
+
     } while( true );
 
     _logger << "Ending session and terminating";

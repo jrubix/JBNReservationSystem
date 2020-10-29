@@ -11,10 +11,12 @@ namespace Domain::Hotel
     std::string unassignHotelRoom() override;
     std::string assignHotelRoom() override;
     std::string getprice(std::string name) override;
-
+    std::string askAvailableRoom(std::string credentials, const std::vector<std::string>& args) override;
+    HotelBase();
     ~HotelBase() noexcept override;
 
     private:
+      std::vector<std::vector<std::string>> roominfo;
   };
 
 }
