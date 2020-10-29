@@ -24,12 +24,34 @@ namespace Domain::Hotel
     return "Success";
   }
 
-  std::string HotelBase::unassignHotelRoom(){
-    return "Success";
+//unassigns hotel room
+  std::string HotelBase::unassignHotelRoom(const std::vector<std::string>& args){
+    int vecsize = roominfo.size()-1;
+    for(int i = 0; i < vecsize; i++){
+      if(roominfo[i][0] == args[0]){
+        roominfo[i][2] = "Available";
+        roominfo[i][3] = "";
+        std::string succ = "Checking out room " + args[0] + "... Successful";
+        return succ;
+      }
+    }
+    return "Unsuccessful";
   }
 
-  std::string HotelBase::assignHotelRoom(){
-    return "Success";
+  std::string HotelBase::assignHotelRoom(const std::string name, const std::string number){
+    int vecsize = roominfo.size()-1;
+    std::string assigncomp;
+    for(int i = 0; i < vecsize; i++){
+      if(roominfo[i][0] == number){
+        roominfo[i][2] = "Occupied";
+        roominfo[i][3] = name;
+        assigncomp = "Room assignment successful\n";
+        return assigncomp;
+      }
+      else
+        assigncomp = "Room assignment failed\n";
+    }
+    return assigncomp;
   }
 
 //if onlyavail == Y print only available rooms otherwise all
@@ -45,6 +67,7 @@ namespace Domain::Hotel
     return rinfo;
   }
 //reserves the room and updates the room log and returns success
+//removes the room from available
   std::string HotelBase::reserveHotelRoom(const std::string name, const std::string credentials, const std::vector<std::string>& args){
     //arg[0] = roomtype arg[1] = room number
     int vecsize = roominfo.size()-1;
@@ -52,8 +75,7 @@ namespace Domain::Hotel
     for(int i = 0; i < vecsize; i++){
       if(roominfo[i][0] == args[1] && roominfo[i][1] == args[0]){
         if(roominfo[i][2] == "Available"){
-          roominfo[i][2] = "Occupied";
-          roominfo[i][3] = name;
+          std::string completed = assignHotelRoom(roominfo[i][3],roominfo[i][0]);
           reservesuccess = "Room "+ roominfo[i][0] +" - "+roominfo[i][1]+" reserved by "+name+"\n";
           return reservesuccess;
         }

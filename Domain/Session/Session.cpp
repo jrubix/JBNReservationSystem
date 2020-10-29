@@ -44,8 +44,8 @@ namespace  // anonymous (private) working area
   }
   /////checking out//////////////
    std::any UnassignRoom(Domain::Session::SessionBase& session, const std::vector<std::string>& args)
-   {
-     std::string results = "Checking out room " + args[0] + "...";
+  {
+     std::string results = hotelControl->unassignHotelRoom(args);
      return {results};
   }
 
@@ -59,9 +59,11 @@ namespace  // anonymous (private) working area
 
   std::any makepayment(Domain::Session::SessionBase& session, const std::vector<std::string>& args)
   {
+    //TOBE REPLACE BY CALL TO PAYMENT SERVICE
 	  std::string results = "Payment success by " + args[0];
 	  session._logger << "making payment result:  " + results;
 	  return results;
+
   }
 
   std::any ProceedToCheckOut(Domain::Session::SessionBase& session, const std::vector<std::string>& args)

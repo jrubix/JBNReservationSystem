@@ -164,7 +164,6 @@ namespace UI
 
 	  ///////////////////making payment...in...reserveroom scenario////////////
 	  else if (selectedCommand == "Make Payment")
-
 	  {
 		  std::vector<std::string> parameters(1);
 
@@ -196,7 +195,7 @@ namespace UI
         std::cin >> std::ws;
         std::getline(std::cin, parameters[0]);
 
-		std::string roomnumber = parameters[0];
+		    std::string roomnumber = parameters[0];
         auto results = sessionControl->executeCommand(selectedCommand, parameters);
         if (results.has_value())
           _logger << "Received reply: \"" + std::any_cast<const std::string &>(results) + '"';
