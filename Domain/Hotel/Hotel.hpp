@@ -8,10 +8,13 @@ namespace Domain::Hotel
     public:
     std::string addCostHotel() override;
     std::string checkoutHotel() override;
+    std::string printAllRooms(std::string onlyavail) override;
+    std::string reserveHotelRoom(const std::string name, const std::string credentials, const std::vector<std::string>& args) override;
     std::string unassignHotelRoom() override;
     std::string assignHotelRoom() override;
     std::string getprice(std::string name) override;
     std::string askAvailableRoom(std::string credentials, const std::vector<std::string>& args) override;
+
     HotelBase();
     ~HotelBase() noexcept override;
 

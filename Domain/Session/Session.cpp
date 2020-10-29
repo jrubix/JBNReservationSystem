@@ -20,15 +20,14 @@ namespace  // anonymous (private) working area
   STUB(assignRoom)
   STUB( shutdown     )
 
+//roles under the assumption users only have one role
  std::any reserveRoom(Domain::Session::SessionBase& session, const std::vector<std::string>& args)
   {
-
-
-	  std::string results = "Room\"" + args[1] + "- " + args[0] + "\" reserved by \"" + session._credentials.userName + '"';
-	  session._logger << "Reserving Room:  " + results;
+	  std::string results = hotelControl->reserveHotelRoom(session._credentials.userName,session._credentials.roles[0], args);
+    session._logger << results;
 	  return results;
   }
-
+//done
   std::any askAvailableRoom(Domain::Session::SessionBase& session, const std::vector<std::string>& args)
   {
     std::string room = hotelControl->askAvailableRoom(session._credentials.roles[0], args);

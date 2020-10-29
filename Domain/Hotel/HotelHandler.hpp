@@ -12,6 +12,8 @@ namespace Domain::Hotel
 
       virtual std::string addCostHotel() = 0;
       virtual std::string checkoutHotel() = 0;
+      virtual std::string printAllRooms(std::string onlyavail) = 0;
+      virtual std::string reserveHotelRoom(const std::string name, const std::string credentials, const std::vector<std::string>& args) = 0;
       virtual std::string unassignHotelRoom() = 0;
       virtual std::string assignHotelRoom() = 0;
       virtual std::string getprice(std::string name) = 0;

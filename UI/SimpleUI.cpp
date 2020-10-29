@@ -136,8 +136,8 @@ namespace UI
 
       ///////////for Manange Reservation................//
 	  /////////////////For Room Avaiability.......//
-      if( selectedCommand == "Ask Available Room" )
-      {
+    if( selectedCommand == "Ask Available Room" )
+    {
         std::vector<std::string> parameters( 3 );
 
         std::cout << " Enter check_in_date:  ";  std::cin >> std::ws;  std::getline( std::cin, parameters[0] );
@@ -147,13 +147,12 @@ namespace UI
         auto results = sessionControl->executeCommand( selectedCommand, parameters );
 
         if( results.has_value() ) _logger << "Received reply: \"" + std::any_cast<const std::string &>( results ) + '"';
-      }
+    }
 
 	  ////////////////////for Reserving room/////////////////
-      else if( selectedCommand == "Reserve Room" )
-
+    else if( selectedCommand == "Reserve Room" )
 	  {
-		std::vector<std::string> parameters( 2 );
+		    std::vector<std::string> parameters( 2 );
 
         std::cout << " Room Type:  ";  std::cin >> std::ws;  std::getline( std::cin, parameters[0] );
         std::cout << " Room number: ";  std::cin >> std::ws;  std::getline( std::cin, parameters[1] );
