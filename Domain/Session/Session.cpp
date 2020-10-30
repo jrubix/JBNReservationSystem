@@ -68,7 +68,7 @@ namespace  // anonymous (private) working area
 
   std::any ProceedToCheckOut(Domain::Session::SessionBase& session, const std::vector<std::string>& args)
   {
-	  std::string result = "Room " + args[0] + " checked out successfully";
+	  std::string result = hotelControl->checkoutHotel(args[0]);
 	  return { result };
   }
 }

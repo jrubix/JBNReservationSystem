@@ -7,7 +7,7 @@ namespace Domain::Hotel
   class HotelBase : public Domain::Hotel::HotelHandler {
     public:
     std::string addCostHotel() override;
-    std::string checkoutHotel() override;
+    std::string checkoutHotel(const std::string number) override;
     std::string printAllRooms(std::string onlyavail) override;
     std::string reserveHotelRoom(const std::string name, const std::string credentials, const std::vector<std::string>& args) override;
     std::string unassignHotelRoom(const std::vector<std::string>& args) override;

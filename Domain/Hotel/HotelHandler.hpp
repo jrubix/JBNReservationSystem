@@ -13,7 +13,7 @@ namespace Domain::Hotel
   {
   public:
     virtual std::string addCostHotel() = 0;
-    virtual std::string checkoutHotel() = 0;
+    virtual std::string checkoutHotel(const std::string number) = 0;
     virtual std::string printAllRooms(std::string onlyavail) = 0;
     virtual std::string reserveHotelRoom(const std::string name, const std::string credentials, const std::vector<std::string> &args) = 0;
     virtual std::string unassignHotelRoom(const std::vector<std::string> &args) = 0;

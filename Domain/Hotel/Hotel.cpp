@@ -20,8 +20,19 @@ namespace Domain::Hotel
     return "Success";
   }
 
-  std::string HotelBase::checkoutHotel(){
-    return "Success";
+  std::string HotelBase::checkoutHotel(const std::string number){
+    int vecsize = roominfo.size()-1;
+    for(int i = 0; i < vecsize; i++){
+      if(roominfo[i][0] == number){
+        if(roominfo[i][2] == "Available" && roominfo[i][3] == ""){
+          std::string succ = "Checking out room " + number + " Successful";
+          return succ;
+        }
+        else
+          return "Failed to checkout";
+      }
+    }
+    return "Failed to checkout";
   }
 
 //unassigns hotel room
