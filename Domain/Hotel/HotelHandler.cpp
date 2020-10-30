@@ -1,5 +1,6 @@
 #include "Domain/Hotel/Hotel.hpp"
 #include "Domain/Hotel/HotelHandler.hpp"
+
 namespace Domain::Hotel
 {
   HotelHandler::~HotelHandler() noexcept = default;
@@ -7,4 +8,4 @@ namespace Domain::Hotel
   {
     return std::unique_ptr<HotelHandler>();
   }
-}
+} // namespace Domain::Hotel
