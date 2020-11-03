@@ -23,55 +23,55 @@ namespace // anonymous (private) working area
   STUB(shutdown)
 
   //roles under the assumption users only have one role
-  std::any reserveRoom(Domain::Session::SessionBase &session, const std::vector<std::string> &args)
-  {
-    std::string results = hotelControl->reserveHotelRoom(session._credentials.userName, session._credentials.roles[0], args);
-    session._logger << results;
-    return results;
-  }
-  //done
-  std::any askAvailableRoom(Domain::Session::SessionBase &session, const std::vector<std::string> &args)
-  {
-    std::string room = hotelControl->askAvailableRoom(session._credentials.roles[0], args);
-    session._logger << "Available Rooms:\n\n" + room;
-    return room;
-  }
+  // std::any reserveRoom(Domain::Session::SessionBase &session, const std::vector<std::string> &args)
+  // {
+  //   std::string results = hotelControl->reserveHotelRoom(session._credentials.userName, session._credentials.roles[0], args);
+  //   session._logger << results;
+  //   return results;
+  // }
+  // //done
+  // std::any askAvailableRoom(Domain::Session::SessionBase &session, const std::vector<std::string> &args)
+  // {
+  //   std::string room = hotelControl->askAvailableRoom(session._credentials.roles[0], args);
+  //   session._logger << "Available Rooms:\n\n" + room;
+  //   return room;
+  // }
 
-  std::any signOff(Domain::Session::SessionBase &session, const std::vector<std::string> &args)
-  {
+  // std::any signOff(Domain::Session::SessionBase &session, const std::vector<std::string> &args)
+  // {
 
-    std::string results = "signed off successfully by " + args[0];
-    session._logger << "Signing off:  " + results;
-    return results;
-  }
-  /////checking out//////////////
-  std::any UnassignRoom(Domain::Session::SessionBase &session, const std::vector<std::string> &args)
-  {
-    auto results = hotelControl->unassignHotelRoom(args);
-    return {results};
-  }
+  //   std::string results = "signed off successfully by " + args[0];
+  //   session._logger << "Signing off:  " + results;
+  //   return results;
+  // }
+  // /////checking out//////////////
+  // std::any UnassignRoom(Domain::Session::SessionBase &session, const std::vector<std::string> &args)
+  // {
+  //   auto results = hotelControl->unassignHotelRoom(args);
+  //   return {results};
+  // }
 
-  std::any addAdditionalCost(Domain::Session::SessionBase &session, const std::vector<std::string> &args)
-  {
-    std::string itemprice = hotelControl->getprice("coke");
-    int cost = stoi(itemprice) * stoi(args[1]);
-    std::string result = "Adding extra cost: for " + args[1] + " " + args[0] + " is " + std::to_string(cost);
-    return {result};
-  }
+  // std::any addAdditionalCost(Domain::Session::SessionBase &session, const std::vector<std::string> &args)
+  // {
+  //   std::string itemprice = hotelControl->getprice("coke");
+  //   int cost = stoi(itemprice) * stoi(args[1]);
+  //   std::string result = "Adding extra cost: for " + args[1] + " " + args[0] + " is " + std::to_string(cost);
+  //   return {result};
+  // }
 
-  std::any makepayment(Domain::Session::SessionBase &session, const std::vector<std::string> &args)
-  {
-    //TOBE REPLACE BY CALL TO PAYMENT SERVICE
-    std::string results = "Payment success by " + args[0];
-    session._logger << "making payment result:  " + results;
-    return results;
-  }
+  // std::any makepayment(Domain::Session::SessionBase &session, const std::vector<std::string> &args)
+  // {
+  //   //TOBE REPLACE BY CALL TO PAYMENT SERVICE
+  //   std::string results = "Payment success by " + args[0];
+  //   session._logger << "making payment result:  " + results;
+  //   return results;
+  // }
 
-  std::any ProceedToCheckOut(Domain::Session::SessionBase &session, const std::vector<std::string> &args)
-  {
-    std::string result = hotelControl->checkoutHotel(args[0]);
-    return {result};
-  }
+  // std::any ProceedToCheckOut(Domain::Session::SessionBase &session, const std::vector<std::string> &args)
+  // {
+  //   std::string result = hotelControl->checkoutHotel(args[0]);
+  //   return {result};
+  // }
 } // namespace
 
 namespace Domain::Session
@@ -88,13 +88,13 @@ namespace Domain::Session
 
   std::vector<std::string> SessionBase::getCommands()
   {
-    std::vector<std::string> availableCommands;
-    availableCommands.reserve(_startingCommands.size());
+    // std::vector<std::string> availableCommands;
+    // availableCommands.reserve(_startingCommands.size());
 
-    for (const auto &[command, function] : _startingCommands)
-      availableCommands.emplace_back(command);
+    // for (const auto &[command, function] : _startingCommands)
+    //   availableCommands.emplace_back(command);
 
-    return availableCommands;
+    return _commandList;
   }
 
   std::any SessionBase::executeCommand(const std::string &command, const std::vector<std::string> &args)
@@ -130,39 +130,49 @@ namespace Domain::Session
   /////////////////////Hotel Guest//////////////////////////////////
   HotelGuestSession::HotelGuestSession(const UserCredentials &credentials) : SessionBase("HotelGuest", credentials)
   {
-    _commandDispatch = {
-        {"Ask Available Room", askAvailableRoom},
-        {"Reserve Room", reserveRoom},
-        {"Make Payment", makepayment},
-        {"Help", Help},
-        {"Sign Off", signOff}};
-    _startingCommands = {
-        {"Ask Available Room", askAvailableRoom},
-        {"Reserve Room", reserveRoom},
-        {"Make Payment", makepayment},
-        {"Help", Help},
-        {"Sign Off", signOff},
-    };
+    // _commandDispatch = {
+    //     {"Ask Available Room", askAvailableRoom},
+    //     {"Reserve Room", reserveRoom},
+    //     {"Make Payment", makepayment},
+    //     {"Help", Help},
+    //     {"Sign Off", signOff}};
+    // _startingCommands = {
+    //     {"Ask Available Room", askAvailableRoom},
+    //     {"Reserve Room", reserveRoom},
+    //     {"Make Payment", makepayment},
+    //     {"Help", Help},
+    //     {"Sign Off", signOff},
+    // };
+    _commandList = {"Ask available room",
+                    "Reserve room",
+                    "Pay",
+                    "Sign Off",
+                    "Help"};
   }
 
   ///////////////////////////Receptionist/////////////////////
   ReceptionistSession::ReceptionistSession(const UserCredentials &credentials) : SessionBase("Receptionist", credentials)
   {
-    _commandDispatch = {
-        {"Assign room", assignRoom},
-        {"Unassign room", UnassignRoom},
-        {"Help", Help},
-        {"Sign Off", signOff},
-        {"Add extra cost", addAdditionalCost},
-        {"Make Payment", makepayment},
-        {"Proceed to check out", ProceedToCheckOut}};
+    // _commandDispatch = {
+    //     {"Assign room", assignRoom},
+    //     {"Unassign room", UnassignRoom},
+    //     {"Help", Help},
+    //     {"Sign Off", signOff},
+    //     {"Add extra cost", addAdditionalCost},
+    //     {"Make Payment", makepayment},
+    //     {"Proceed to check out", ProceedToCheckOut}};
 
-    _startingCommands = {
-        {"Assign room", assignRoom},
-        {"Unassign room", UnassignRoom},
-        {"Help", Help},
-        {"Sign Off", signOff},
-    };
+    // _startingCommands = {
+    //     {"Assign room", assignRoom},
+    //     {"Unassign room", UnassignRoom},
+    //     {"Help", Help},
+    //     {"Sign Off", signOff},
+    // };
+    _commandList = {"Assign room",
+                    "Unassign room",
+                    "Pay",
+                    "Add additional cost", "Sign Off",
+                    "Help"};
   }
 
 } // namespace Domain::Session

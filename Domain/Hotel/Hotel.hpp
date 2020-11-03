@@ -16,23 +16,24 @@ namespace Domain::Hotel
   class HotelBase : public Domain::Hotel::HotelHandler
   {
   public:
-    std::any addCostHotel() override;
-    std::any pay(const std::vector<std::string> &abc) override;
+    std::any addCostHotel(const std::vector<std::string> &args) override;
+    std::any pay(const std::vector<std::string> &args) override;
     std::string checkoutHotel(const std::string number) override;
     std::string printAllRooms(std::string onlyavail) override;
-    std::string reserveHotelRoom(const std::string name, const std::string credentials, const std::vector<std::string> &args) override;
+    std::any reserveHotelRoom(const std::vector<std::string> &args) override;
     std::any unassignHotelRoom(const std::vector<std::string> &args) override;
     std::string assignHotelRoom(const std::string name, const std::string number) override;
     std::string getprice(std::string name) override;
-    std::string askAvailableRoom(std::string credentials, const std::vector<std::string> &args) override;
+    std::any askAvailableRoom(const std::vector<std::string> &args) override;
     std::any executeCommand(const std::string &command, const std::vector<std::string> &args) override;
+    double getPrice(std::string name);
 
     HotelBase();
     ~HotelBase() noexcept override;
 
   protected:
   public:
-    std::vector<std::vector<std::string>> roominfo;
+    std::vector<std::vector<std::string>> roomInfo;
     std::unique_ptr<TechnicalServices::Logging::LoggerHandler> _loggerPtr;
 
     // convenience reference object enabling standard insertion syntax
@@ -42,6 +43,7 @@ namespace Domain::Hotel
     using DispatchTable = std::map<std::string, hotel_method>;
     friend class Policy;
     DispatchTable _commandDispatch;
+    std::map<std::string, double> pricing;
   };
 
 } // namespace Domain::Hotel

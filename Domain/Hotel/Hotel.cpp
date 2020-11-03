@@ -11,7 +11,7 @@ namespace Domain::Hotel
 
   HotelBase::HotelBase() : _loggerPtr(std::make_unique<TechnicalServices::Logging::SimpleLogger>())
   {
-    roominfo = {{"120", "Queen", "Available", ""},
+    roomInfo = {{"120", "Queen", "Available", ""},
                 {"121", "King", "Occupied", "Rebecca Gamble"},
                 {"122", "2 Queens", "Available", ""},
                 {"123", "Suite", "Occupied", "Julie Straw"},
@@ -19,15 +19,31 @@ namespace Domain::Hotel
                 {"125", "King", "Occupied", "Sam Smith"},
                 {"126", "Queen", "Occupied", "John Doe"}};
 
+    pricing = {{"coke can", 5}};
+
     // _commandDispatch = {
     //     {"Unassign room", pay}};
 
     _commandDispatch["Unassign room"] = &HotelBase::unassignHotelRoom;
+    _commandDispatch["Add additional cost"] = &HotelBase::addCostHotel;
+    _commandDispatch["Pay"] = &HotelBase::pay;
+    _commandDispatch["Ask available room"] = &HotelBase::askAvailableRoom;
+    _commandDispatch["Reserve room"] = &HotelBase::reserveHotelRoom;
+
     _logger << "Hotel being used and has been successfully initialized";
   }
-  std::any HotelBase::addCostHotel()
+  std::any HotelBase::addCostHotel(const std::vector<std::string> &args)
   {
-    return "Success";
+    std::string result;
+    result = args[2] + " x " + args[1] + " added to room " + args[0] + ". Subtotal: $" + std::to_string(getPrice(args[1]) * stoi(args[2]));
+    return {result};
+  }
+
+  double HotelBase::getPrice(std::string name)
+  {
+    auto result = pricing.find(name);
+
+    return result->second;
   }
 
   std::any HotelBase::executeCommand(const std::string &command, const std::vector<std::string> &args)
@@ -59,21 +75,20 @@ namespace Domain::Hotel
     return results;
   }
 
-  std::any HotelBase::pay(const std::vector<std::string> &abc)
+  std::any HotelBase::pay(const std::vector<std::string> &args)
   {
-
-    std::string result = "CALLED HERE";
+    std::string result = "Payment of $" + args[2] + " for room " + args[0] + " by " + args[1] + " received successfully.";
     return {result};
   }
 
   std::string HotelBase::checkoutHotel(const std::string number)
   {
-    int vecsize = roominfo.size() - 1;
+    int vecsize = roomInfo.size() - 1;
     for (int i = 0; i < vecsize; i++)
     {
-      if (roominfo[i][0] == number)
+      if (roomInfo[i][0] == number)
       {
-        if (roominfo[i][2] == "Available" && roominfo[i][3] == "")
+        if (roomInfo[i][2] == "Available" && roomInfo[i][3] == "")
         {
           std::string succ = "Checking out room " + number + " Successful";
           return succ;
@@ -88,14 +103,19 @@ namespace Domain::Hotel
   //unassigns hotel room
   std::any HotelBase::unassignHotelRoom(const std::vector<std::string> &args)
   {
-    int vecsize = roominfo.size() - 1;
+    int vecsize = roomInfo.size() - 1;
     std::string result;
     for (int i = 0; i < vecsize; i++)
     {
-      if (roominfo[i][0] == args[0])
+      if (roomInfo[i][0] == args[0])
       {
-        roominfo[i][2] = "Available";
-        roominfo[i][3] = "";
+        if (roomInfo[i][2] == "Available")
+        {
+          result = "Room " + args[0] + " is not occupied. Request canceled.";
+          return result;
+        }
+        roomInfo[i][2] = "Available";
+        roomInfo[i][3] = "";
         result = "Checking out room " + args[0] + "... Successful";
         return {result};
       }
@@ -108,14 +128,14 @@ namespace Domain::Hotel
 
   std::string HotelBase::assignHotelRoom(const std::string name, const std::string number)
   {
-    int vecsize = roominfo.size() - 1;
+    int vecsize = roomInfo.size() - 1;
     std::string assigncomp;
     for (int i = 0; i < vecsize; i++)
     {
-      if (roominfo[i][0] == number)
+      if (roomInfo[i][0] == number)
       {
-        roominfo[i][2] = "Occupied";
-        roominfo[i][3] = name;
+        roomInfo[i][2] = "Occupied";
+        roomInfo[i][3] = name;
         assigncomp = "Room assignment successful\n";
         return assigncomp;
       }
@@ -130,31 +150,31 @@ namespace Domain::Hotel
   std::string HotelBase::printAllRooms(std::string onlyavail)
   {
     std::string rinfo;
-    int vecsize = roominfo.size() - 1;
+    int vecsize = roomInfo.size() - 1;
     for (int i = 0; i < vecsize; i++)
     {
-      if (onlyavail == "Y" && roominfo[i][2] == "Occupied")
+      if (onlyavail == "Y" && roomInfo[i][2] == "Occupied")
         continue;
       //direct access second vector, change if additional fields
-      rinfo += roominfo[i][0] + "   " + roominfo[i][1] + "   " + roominfo[i][2] + "  " + roominfo[i][3] + "\n";
+      rinfo += roomInfo[i][0] + "   " + roomInfo[i][1] + "   " + roomInfo[i][2] + "  " + roomInfo[i][3] + "\n";
     }
     return rinfo;
   }
   //reserves the room and updates the room log and returns success
   //removes the room from available
-  std::string HotelBase::reserveHotelRoom(const std::string name, const std::string credentials, const std::vector<std::string> &args)
+  std::any HotelBase::reserveHotelRoom(const std::vector<std::string> &args)
   {
     //arg[0] = roomtype arg[1] = room number
-    int vecsize = roominfo.size() - 1;
+    int vecsize = roomInfo.size() - 1;
     std::string reservesuccess;
     for (int i = 0; i < vecsize; i++)
     {
-      if (roominfo[i][0] == args[1] && roominfo[i][1] == args[0])
+      if (roomInfo[i][0] == args[1] && roomInfo[i][1] == args[0])
       {
-        if (roominfo[i][2] == "Available")
+        if (roomInfo[i][2] == "Available")
         {
-          std::string completed = assignHotelRoom(roominfo[i][3], roominfo[i][0]);
-          reservesuccess = "Room " + roominfo[i][0] + " - " + roominfo[i][1] + " reserved by " + name + "\n";
+          std::string completed = assignHotelRoom(roomInfo[i][3], roomInfo[i][0]);
+          reservesuccess = "Room " + roomInfo[i][0] + " - " + roomInfo[i][1] + " reserved by " + args[2];
           return reservesuccess;
         }
         else
@@ -171,22 +191,22 @@ namespace Domain::Hotel
   }
 
   //checks for available rooms with date and prices
-  std::string HotelBase::askAvailableRoom(std::string credentials, const std::vector<std::string> &args)
+  std::any HotelBase::askAvailableRoom(const std::vector<std::string> &args)
   {
 
     std::string rinfo;
     //std::vector<std::vector<std::string>>::iterator row;
     //std::vector<std::string>::iterator col;
-    int vecsize = roominfo.size() - 1;
+    int vecsize = roomInfo.size() - 1;
     for (int i = 0; i < vecsize; i++)
     {
-      if (roominfo[i][2] == "Occupied" && credentials == "HotelGuest")
+      if (roomInfo[i][2] == "Occupied")
         continue;
       //direct access second vector, change if additional fields
-      rinfo += roominfo[i][0] + "   " + roominfo[i][1] + "   " + roominfo[i][2];
-      rinfo += "- Room avialable for checking date \"" + args[0] + "\" for \"" + args[1] + "\" night(s) and for \"" + args[2] + "\" hotel guest(s) at: $" + std::to_string(stoi(args[1]) * stoi(getprice(roominfo[i][1]))) + "\n";
+      rinfo += roomInfo[i][0] + "   " + roomInfo[i][1] + "   " + roomInfo[i][2];
+      rinfo += "- Room avialable for checking date \"" + args[0] + "\" for \"" + args[1] + "\" night(s) and for \"" + args[2] + "\" hotel guest(s) at: $" + std::to_string(stoi(args[1]) * stoi(getprice(roomInfo[i][1]))) + "\n";
     }
-    return rinfo;
+    return {rinfo};
   }
 
   std::string HotelBase::getprice(std::string name)
@@ -221,7 +241,7 @@ namespace Domain::Hotel
 
   HotelBase::~HotelBase() noexcept
   {
-    std::cout << "Deconstructed";
+    _logger << "Hotel shutdown successfully";
   }
 
 } // namespace Domain::Hotel
