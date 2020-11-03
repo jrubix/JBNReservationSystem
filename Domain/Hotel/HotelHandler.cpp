@@ -6,6 +6,6 @@ namespace Domain::Hotel
   HotelHandler::~HotelHandler() noexcept = default;
   std::unique_ptr<HotelHandler> HotelHandler::createHotel()
   {
-    return std::unique_ptr<HotelHandler>();
+    return std::make_unique<Domain::Hotel::HotelBase>();
   }
 } // namespace Domain::Hotel

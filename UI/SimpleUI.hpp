@@ -1,14 +1,12 @@
 #pragma once
 
-#include <memory>    // std::unique_ptr
+#include <memory> // std::unique_ptr
 
 #include "TechnicalServices/Logging/LoggerHandler.hpp"
 #include "TechnicalServices/Persistence/PersistenceHandler.hpp"
 
 #include "UI/UserInterfaceHandler.hpp"
-
-
-
+#include "Domain/Hotel/HotelHandler.hpp"
 
 namespace UI
 {
@@ -20,28 +18,25 @@ namespace UI
   ******************************************************************************/
   class SimpleUI : public UI::UserInterfaceHandler
   {
-    public:
-      // Constructors
-      SimpleUI();
+  public:
+    // Constructors
+    SimpleUI();
 
+    // Operations
+    void launch() override;
+    void logo() override;
 
-      // Operations
-      void launch() override;
-      void logo() override;
+    // Destructor
+    ~SimpleUI() noexcept override;
 
-      // Destructor
-      ~SimpleUI() noexcept override;
+  private:
+    // These smart pointers hold pointers to lower architectural layer's interfaces
+    std::unique_ptr<Domain::Hotel::HotelHandler> _hotelPtr;
+    std::unique_ptr<TechnicalServices::Logging::LoggerHandler> _loggerPtr;
+    TechnicalServices::Persistence::PersistenceHandler &_persistentData;
 
-
-    private:
-      // These smart pointers hold pointers to lower architectural layer's interfaces
-
-      std::unique_ptr<TechnicalServices::Logging::LoggerHandler>            _loggerPtr;
-      TechnicalServices::Persistence::PersistenceHandler                  & _persistentData;
-
-
-      // convenience reference object enabling standard insertion syntax
-      // This line must be physically after the definition of _loggerPtr
-      TechnicalServices::Logging::LoggerHandler                            & _logger = *_loggerPtr;
+    // convenience reference object enabling standard insertion syntax
+    // This line must be physically after the definition of _loggerPtr
+    TechnicalServices::Logging::LoggerHandler &_logger = *_loggerPtr;
   };
 } // namespace UI
