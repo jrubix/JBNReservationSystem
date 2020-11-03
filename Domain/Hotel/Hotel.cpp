@@ -18,9 +18,11 @@ namespace Domain::Hotel
                 {"124", "Suite", "Available", ""},
                 {"125", "King", "Occupied", "Sam Smith"},
                 {"126", "Queen", "Occupied", "John Doe"}};
-    _commandDispatch = {
-        {"Unassign room", pay}};
-    // _commandDispatch["Unassign room"] = pay;
+
+    // _commandDispatch = {
+    //     {"Unassign room", pay}};
+
+    _commandDispatch["Unassign room"] = &HotelBase::unassignHotelRoom;
     _logger << "Hotel being used and has been successfully initialized";
   }
   std::any HotelBase::addCostHotel()
@@ -47,7 +49,7 @@ namespace Domain::Hotel
 
     //std::cout << args[0];
 
-    auto results = it->second(*this, args);
+    auto results = (*this.*(it->second))(args);
     if (results.has_value())
     {
       // The type of result depends on function called.  Let's assume strings for now ...
@@ -57,9 +59,11 @@ namespace Domain::Hotel
     return results;
   }
 
-  std::any pay(const std::vector<std::string> &abc)
+  std::any HotelBase::pay(const std::vector<std::string> &abc)
   {
-    return "success";
+
+    std::string result = "CALLED HERE";
+    return {result};
   }
 
   std::string HotelBase::checkoutHotel(const std::string number)
@@ -82,20 +86,24 @@ namespace Domain::Hotel
   }
 
   //unassigns hotel room
-  std::string HotelBase::unassignHotelRoom(const std::vector<std::string> &args)
+  std::any HotelBase::unassignHotelRoom(const std::vector<std::string> &args)
   {
     int vecsize = roominfo.size() - 1;
+    std::string result;
     for (int i = 0; i < vecsize; i++)
     {
       if (roominfo[i][0] == args[0])
       {
         roominfo[i][2] = "Available";
         roominfo[i][3] = "";
-        std::string succ = "Checking out room " + args[0] + "... Successful";
-        return succ;
+        result = "Checking out room " + args[0] + "... Successful";
+        return {result};
       }
     }
-    return "Unsuccessful";
+
+    result = "Unsuccessful";
+
+    return {result};
   }
 
   std::string HotelBase::assignHotelRoom(const std::string name, const std::string number)

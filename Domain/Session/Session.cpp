@@ -47,7 +47,7 @@ namespace // anonymous (private) working area
   /////checking out//////////////
   std::any UnassignRoom(Domain::Session::SessionBase &session, const std::vector<std::string> &args)
   {
-    std::string results = hotelControl->unassignHotelRoom(args);
+    auto results = hotelControl->unassignHotelRoom(args);
     return {results};
   }
 

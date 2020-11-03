@@ -17,11 +17,11 @@ namespace Domain::Hotel
   {
   public:
     std::any addCostHotel() override;
-    std::any pay(const std::vector<std::string> &abc);
+    std::any pay(const std::vector<std::string> &abc) override;
     std::string checkoutHotel(const std::string number) override;
     std::string printAllRooms(std::string onlyavail) override;
     std::string reserveHotelRoom(const std::string name, const std::string credentials, const std::vector<std::string> &args) override;
-    std::string unassignHotelRoom(const std::vector<std::string> &args) override;
+    std::any unassignHotelRoom(const std::vector<std::string> &args) override;
     std::string assignHotelRoom(const std::string name, const std::string number) override;
     std::string getprice(std::string name) override;
     std::string askAvailableRoom(std::string credentials, const std::vector<std::string> &args) override;
@@ -39,7 +39,8 @@ namespace Domain::Hotel
     // This line must be physically after the definition of _loggerPtr
     TechnicalServices::Logging::LoggerHandler &_logger = *_loggerPtr;
     typedef std::any (HotelBase::*hotel_method)(const std::vector<std::string> &);
-    using DispatchTable = std::map<std::string, std::any (*)(Domain::Hotel::HotelBase &, const std::vector<std::string> &)>;
+    using DispatchTable = std::map<std::string, hotel_method>;
+    friend class Policy;
     DispatchTable _commandDispatch;
   };
 

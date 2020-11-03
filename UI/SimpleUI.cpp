@@ -197,7 +197,7 @@ namespace UI
       /////////////for unassign room....................//
       else if (selectedCommand == "Unassign room")
       {
-        std::vector<std::string> parameters(2);
+        std::vector<std::string> parameters(1);
 
         std::cout << " Enter room's number:  ";
         std::cin >> std::ws;
