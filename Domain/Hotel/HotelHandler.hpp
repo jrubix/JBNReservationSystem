@@ -27,7 +27,6 @@ namespace Domain::Hotel
     virtual std::any reserveHotelRoom(const std::vector<std::string> &args) = 0;
     virtual std::any unassignHotelRoom(const std::vector<std::string> &args) = 0;
     virtual std::string assignHotelRoom(const std::string name, const std::string number) = 0;
-    virtual std::string getprice(std::string name) = 0;
     virtual std::any askAvailableRoom(const std::vector<std::string> &args) = 0;
     virtual std::any executeCommand(const std::string &command, const std::vector<std::string> &args) = 0;
     virtual ~HotelHandler() noexcept = 0;

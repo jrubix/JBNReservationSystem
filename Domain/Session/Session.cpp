@@ -53,7 +53,7 @@ namespace // anonymous (private) working area
 
   // std::any addAdditionalCost(Domain::Session::SessionBase &session, const std::vector<std::string> &args)
   // {
-  //   std::string itemprice = hotelControl->getprice("coke");
+  //   std::string itemprice = hotelControl->getPrice("");
   //   int cost = stoi(itemprice) * stoi(args[1]);
   //   std::string result = "Adding extra cost: for " + args[1] + " " + args[0] + " is " + std::to_string(cost);
   //   return {result};

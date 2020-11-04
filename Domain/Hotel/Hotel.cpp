@@ -19,7 +19,11 @@ namespace Domain::Hotel
                 {"125", "King", "Occupied", "Sam Smith"},
                 {"126", "Queen", "Occupied", "John Doe"}};
 
-    pricing = {{"coke can", 5}};
+    pricing = {{"coke can", 5},
+              {"Queen", 89},
+              {"2 Queens", 130},
+              {"Suite", 189},
+              {"King", 90}};
 
     // _commandDispatch = {
     //     {"Unassign room", pay}};
@@ -204,40 +208,11 @@ namespace Domain::Hotel
         continue;
       //direct access second vector, change if additional fields
       rinfo += roomInfo[i][0] + "   " + roomInfo[i][1] + "   " + roomInfo[i][2];
-      rinfo += "- Room avialable for checking date \"" + args[0] + "\" for \"" + args[1] + "\" night(s) and for \"" + args[2] + "\" hotel guest(s) at: $" + std::to_string(stoi(args[1]) * stoi(getprice(roomInfo[i][1]))) + "\n";
+      rinfo += "- Room avialable for checking date \"" + args[0] + "\" for \"" + args[1] + "\" night(s) and for \"" + args[2] + "\" hotel guest(s) at: $" + std::to_string(std::stoi(args[1]) * getPrice(roomInfo[i][1])) + "\n";
     }
     return {rinfo};
   }
 
-  std::string HotelBase::getprice(std::string name)
-  {
-    std::string price;
-    ///getting extra item price::
-    if (name == "coke")
-    {
-      return "5";
-    }
-
-    //getting the price for room type
-    if (name == "Queen")
-    {
-      return "89";
-    }
-    if (name == "2 Queens")
-    {
-      return "130";
-    }
-    if (name == "Suite")
-    {
-      return "189";
-    }
-    if (name == "King")
-    {
-      return "90";
-    }
-
-    return price;
-  }
 
   HotelBase::~HotelBase() noexcept
   {
