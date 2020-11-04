@@ -13,20 +13,13 @@ namespace Domain::Hotel
   {
     roomInfo = {{"120", "Queen", "Available", ""},
                 {"121", "King", "Occupied", "Rebecca Gamble"},
-                {"122", "2 Queens", "Available", ""},
+                {"122", "Two Queens", "Available", ""},
                 {"123", "Suite", "Occupied", "Julie Straw"},
                 {"124", "Suite", "Available", ""},
                 {"125", "King", "Occupied", "Sam Smith"},
                 {"126", "Queen", "Occupied", "John Doe"}};
 
-    pricing = {{"coke can", 5},
-              {"Queen", 89},
-              {"2 Queens", 130},
-              {"Suite", 189},
-              {"King", 90}};
-
-    // _commandDispatch = {
-    //     {"Unassign room", pay}};
+    pricing = {{"Coke can", 5}, {"Queen", 89}, {"Two Queens", 130}, {"Suite", 189}, {"King", 90}};
 
     _commandDispatch["Unassign room"] = &HotelBase::unassignHotelRoom;
     _commandDispatch["Add additional cost"] = &HotelBase::addCostHotel;
@@ -199,20 +192,18 @@ namespace Domain::Hotel
   {
 
     std::string rinfo;
-    //std::vector<std::vector<std::string>>::iterator row;
-    //std::vector<std::string>::iterator col;
+
     int vecsize = roomInfo.size() - 1;
     for (int i = 0; i < vecsize; i++)
     {
       if (roomInfo[i][2] == "Occupied")
         continue;
       //direct access second vector, change if additional fields
-      rinfo += roomInfo[i][0] + "   " + roomInfo[i][1] + "   " + roomInfo[i][2];
-      rinfo += "- Room avialable for checking date \"" + args[0] + "\" for \"" + args[1] + "\" night(s) and for \"" + args[2] + "\" hotel guest(s) at: $" + std::to_string(std::stoi(args[1]) * getPrice(roomInfo[i][1])) + "\n";
+      rinfo += roomInfo[i][0] + "-" + roomInfo[i][1] + " " + roomInfo[i][2];
+      rinfo += " Room for checking date \"" + args[0] + "\" for \"" + args[1] + "\" night(s) and for \"" + args[2] + "\" hotel guest(s) at: $" + std::to_string(stoi(args[1]) * getPrice(roomInfo[i][1])) + "\n";
     }
     return {rinfo};
   }
-
 
   HotelBase::~HotelBase() noexcept
   {

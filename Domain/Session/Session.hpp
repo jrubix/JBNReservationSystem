@@ -40,7 +40,6 @@ namespace Domain::Session
     std::vector<std::string> _commandList;
   }; // class SessionBase
 
-  //struct AdministratorSession : SessionBase{ AdministratorSession( const UserCredentials & credentials ); };
   struct ReceptionistSession : SessionBase
   {
     ReceptionistSession(const UserCredentials &credentials);
@@ -49,6 +48,5 @@ namespace Domain::Session
   {
     HotelGuestSession(const UserCredentials &credentials);
   };
-  // struct ManagementSession    : SessionBase{ ManagementSession  ( const UserCredentials & credentials ); };
 
 } // namespace Domain::Session

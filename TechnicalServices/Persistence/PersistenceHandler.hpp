@@ -6,8 +6,6 @@
 #include <vector>
 
 
-
-
 namespace TechnicalServices::Persistence
 {
   // Function argument type definitions
@@ -17,9 +15,6 @@ namespace TechnicalServices::Persistence
     std::string               passPhrase;
     std::vector<std::string>  roles;
   };
-
-
-
 
   // Persistence Package within the Technical Services Layer Abstract class
   // Singleton Class - only one instance of the DB exists for the entire system

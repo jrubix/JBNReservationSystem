@@ -25,7 +25,7 @@ namespace Domain::Hotel
     std::string assignHotelRoom(const std::string name, const std::string number) override;
     std::any askAvailableRoom(const std::vector<std::string> &args) override;
     std::any executeCommand(const std::string &command, const std::vector<std::string> &args) override;
-    double getPrice(std::string name);
+    double getPrice(std::string name) override;
 
     HotelBase();
     ~HotelBase() noexcept override;

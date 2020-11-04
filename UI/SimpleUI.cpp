@@ -57,6 +57,8 @@ namespace UI
 
     std::unique_ptr<Domain::Session::SessionHandler> sessionControl;
 
+    int shutdown = 0;
+
     do
     {
       std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -88,166 +90,173 @@ namespace UI
       if (sessionControl != nullptr)
       {
         _logger << "Login Successful for \"" + credentials.userName + "\" as role \"" + selectedRole + "\"";
-        break;
-      }
+        // break;
 
-      std::cout << "** Login failed\n";
-      _logger << "Login failure for \"" + credentials.userName + "\" as role \"" + selectedRole + "\"";
+        // 4) Fetch functionality options for this role
+        do
+        {
+          auto commands = sessionControl->getCommands();
+          std::string selectedCommand;
+          unsigned menuSelection;
 
-    } while (true);
+          do
+          {
+            for (unsigned i = 0; i != commands.size(); ++i)
+              std::cout << std::setw(2) << i << " - " << commands[i] << '\n';
+            std::cout << std::setw(2) << commands.size() << " - "
+                      << "Quit\n";
 
-    // 4) Fetch functionality options for this role
-    do
-    {
-      auto commands = sessionControl->getCommands();
-      std::string selectedCommand;
-      unsigned menuSelection;
+            std::cout << "  action (0-" << commands.size() << "): ";
+            std::cin >> menuSelection;
+          } while (menuSelection > commands.size());
 
-      do
-      {
-        for (unsigned i = 0; i != commands.size(); ++i)
-          std::cout << std::setw(2) << i << " - " << commands[i] << '\n';
-        std::cout << std::setw(2) << commands.size() << " - "
-                  << "Quit\n";
+          if (menuSelection == commands.size())
+          {
+            shutdown = -1;
+            break;
+          }
 
-        std::cout << "  action (0-" << commands.size() << "): ";
-        std::cin >> menuSelection;
-      } while (menuSelection > commands.size());
+          selectedCommand = commands[menuSelection];
+          _logger << "Command selected \"" + selectedCommand + '"';
 
-      if (menuSelection == commands.size())
-        break;
-
-      selectedCommand = commands[menuSelection];
-      _logger << "Command selected \"" + selectedCommand + '"';
-
-      /******************************************************************************************************************************
+          /******************************************************************************************************************************
       **  5) The user interface will collect relevant information to execute the chosen command.  This section requires the UI to
       **     know what information to collect, and hence what the available commands are.  Our goal is loose (minimal) coupling, not
       **     no coupling. This can be achieved in a variety of ways, but one common way is to pass strings instead of strong typed
       **     parameters.
       ******************************************************************************************************************************/
 
-      ///////////for Manange Reservation................//
-      /////////////////For Room Avaiability.......//
-      if (selectedCommand == "Ask available room")
-      {
-        std::vector<std::string> parameters(3);
+          ///////////for Manange Reservation................//
+          /////////////////For Room Avaiability.......//
+          if (selectedCommand == "Ask available room")
+          {
+            std::vector<std::string> parameters(3);
 
-        std::cout << " Enter check_in_date:  ";
-        std::cin >> std::ws;
-        std::getline(std::cin, parameters[0]);
-        std::cout << " Enter # of nights: ";
-        std::cin >> std::ws;
-        std::getline(std::cin, parameters[1]);
-        std::cout << " Enter # of hotel guest's:   ";
-        std::cin >> std::ws;
-        std::getline(std::cin, parameters[2]);
+            std::cout << " Enter check_in_date:  ";
+            std::cin >> std::ws;
+            std::getline(std::cin, parameters[0]);
+            std::cout << " Enter # of nights: ";
+            std::cin >> std::ws;
+            std::getline(std::cin, parameters[1]);
+            std::cout << " Enter # of hotel guest's:   ";
+            std::cin >> std::ws;
+            std::getline(std::cin, parameters[2]);
 
-        auto results = _hotelPtr->executeCommand(selectedCommand, parameters);
+            auto results = _hotelPtr->executeCommand(selectedCommand, parameters);
 
-        if (results.has_value())
-          _logger << "Received reply:\n \"" + std::any_cast<const std::string &>(results) + '"';
+            if (results.has_value())
+              _logger << "Received reply:\n \"" + std::any_cast<const std::string &>(results) + '"';
+          }
+
+          ////////////////////for Reserving room/////////////////
+          else if (selectedCommand == "Reserve room")
+          {
+            std::vector<std::string> parameters(3);
+
+            parameters[2] = credentials.userName;
+            std::cout << " Room Type:  ";
+            std::cin >> std::ws;
+            std::getline(std::cin, parameters[0]);
+            std::cout << " Room number: ";
+            std::cin >> std::ws;
+            std::getline(std::cin, parameters[1]);
+            // std::cout << " Reservation_guest_name:   ";  std::cin >> std::ws;  std::getline( std::cin, parameters[2] );
+
+            auto results = _hotelPtr->executeCommand(selectedCommand, parameters);
+            if (results.has_value())
+              _logger << "Received reply: \"" + std::any_cast<const std::string &>(results) + '"';
+          }
+
+          ///////////////////making payment...in...reserveroom scenario////////////
+          // else if (selectedCommand == "Make Payment")
+          // {
+          //   std::vector<std::string> parameters(1);
+
+          //   std::cout << " payment done by:  ";
+          //   std::cin >> std::ws;
+          //   std::getline(std::cin, parameters[0]);
+
+          //   auto results = sessionControl->executeCommand(selectedCommand, parameters);
+          //   if (results.has_value())
+          //     _logger << "Received reply: \"" + std::any_cast<const std::string &>(results) + '"';
+          // }
+
+          ///////////////////////////////
+          else if (selectedCommand == "Sign Off")
+
+          {
+
+            std::vector<std::string> parameters(1);
+
+            parameters[0] = credentials.userName;
+            auto results = sessionControl->executeCommand(selectedCommand, parameters);
+            if (results.has_value())
+              _logger << "Received reply: \"" + std::any_cast<const std::string &>(results) + '"';
+            break;
+          }
+
+          ////////////////////for checking out......................//
+          /////////////for unassign room....................//
+          else if (selectedCommand == "Unassign room")
+          {
+            std::vector<std::string> parameters(1);
+
+            std::cout << " Enter room's number:  ";
+            std::cin >> std::ws;
+            std::getline(std::cin, parameters[0]);
+
+            // std::string roomnumber = parameters[0];
+            auto results = _hotelPtr->executeCommand(selectedCommand, parameters);
+            if (results.has_value())
+              _logger << "Received reply: \"" + std::any_cast<const std::string &>(results) + '"';
+          }
+          else if (selectedCommand == "Add additional cost")
+          {
+            std::vector<std::string> parameters(3);
+
+            std::cout << " Enter room's number:  ";
+            std::cin >> std::ws;
+            std::getline(std::cin, parameters[0]);
+            std::cout << " Enter item's name:  ";
+            std::cin >> std::ws;
+            std::getline(std::cin, parameters[1]);
+            std::cout << " Enter quantity:  ";
+            std::cin >> std::ws;
+            std::getline(std::cin, parameters[2]);
+
+            auto results = _hotelPtr->executeCommand(selectedCommand, parameters);
+            if (results.has_value())
+              _logger << "Received reply: \"" + std::any_cast<const std::string &>(results) + '"';
+          }
+          else if (selectedCommand == "Pay")
+          {
+            std::vector<std::string> parameters(3);
+
+            std::cout << " Enter room's number:  ";
+            std::cin >> std::ws;
+            std::getline(std::cin, parameters[0]);
+            std::cout << " Enter payment method:  ";
+            std::cin >> std::ws;
+            std::getline(std::cin, parameters[1]);
+            std::cout << " Enter amount:  ";
+            std::cin >> std::ws;
+            std::getline(std::cin, parameters[2]);
+
+            auto results = _hotelPtr->executeCommand(selectedCommand, parameters);
+            if (results.has_value())
+              _logger << "Received reply: \"" + std::any_cast<const std::string &>(results) + '"';
+          }
+
+        } while (true);
       }
 
-      ////////////////////for Reserving room/////////////////
-      else if (selectedCommand == "Reserve room")
+      else
       {
-        std::vector<std::string> parameters(3);
-
-        parameters[2] = credentials.userName;
-        std::cout << " Room Type:  ";
-        std::cin >> std::ws;
-        std::getline(std::cin, parameters[0]);
-        std::cout << " Room number: ";
-        std::cin >> std::ws;
-        std::getline(std::cin, parameters[1]);
-        // std::cout << " Reservation_guest_name:   ";  std::cin >> std::ws;  std::getline( std::cin, parameters[2] );
-
-        auto results = _hotelPtr->executeCommand(selectedCommand, parameters);
-        if (results.has_value())
-          _logger << "Received reply: \"" + std::any_cast<const std::string &>(results) + '"';
+        std::cout << "** Login failed\n";
+        _logger << "Login failure for \"" + credentials.userName + "\" as role \"" + selectedRole + "\"";
       }
 
-      ///////////////////making payment...in...reserveroom scenario////////////
-      // else if (selectedCommand == "Make Payment")
-      // {
-      //   std::vector<std::string> parameters(1);
-
-      //   std::cout << " payment done by:  ";
-      //   std::cin >> std::ws;
-      //   std::getline(std::cin, parameters[0]);
-
-      //   auto results = sessionControl->executeCommand(selectedCommand, parameters);
-      //   if (results.has_value())
-      //     _logger << "Received reply: \"" + std::any_cast<const std::string &>(results) + '"';
-      // }
-
-      ///////////////////////////////
-      else if (selectedCommand == "Sign Off")
-
-      {
-        break;
-        // std::vector<std::string> parameters(1);
-
-        // parameters[0] = credentials.userName;
-        // auto results = sessionControl->executeCommand(selectedCommand, parameters);
-        // if (results.has_value())
-        //   _logger << "Received reply: \"" + std::any_cast<const std::string &>(results) + '"';
-      }
-
-      ////////////////////for checking out......................//
-      /////////////for unassign room....................//
-      else if (selectedCommand == "Unassign room")
-      {
-        std::vector<std::string> parameters(1);
-
-        std::cout << " Enter room's number:  ";
-        std::cin >> std::ws;
-        std::getline(std::cin, parameters[0]);
-
-        // std::string roomnumber = parameters[0];
-        auto results = _hotelPtr->executeCommand(selectedCommand, parameters);
-        if (results.has_value())
-          _logger << "Received reply: \"" + std::any_cast<const std::string &>(results) + '"';
-      }
-      else if (selectedCommand == "Add additional cost")
-      {
-        std::vector<std::string> parameters(3);
-
-        std::cout << " Enter room's number:  ";
-        std::cin >> std::ws;
-        std::getline(std::cin, parameters[0]);
-        std::cout << " Enter item's name:  ";
-        std::cin >> std::ws;
-        std::getline(std::cin, parameters[1]);
-        std::cout << " Enter quantity:  ";
-        std::cin >> std::ws;
-        std::getline(std::cin, parameters[2]);
-
-        auto results = _hotelPtr->executeCommand(selectedCommand, parameters);
-        if (results.has_value())
-          _logger << "Received reply: \"" + std::any_cast<const std::string &>(results) + '"';
-      }
-      else if (selectedCommand == "Pay")
-      {
-        std::vector<std::string> parameters(3);
-
-        std::cout << " Enter room's number:  ";
-        std::cin >> std::ws;
-        std::getline(std::cin, parameters[0]);
-        std::cout << " Enter payment method:  ";
-        std::cin >> std::ws;
-        std::getline(std::cin, parameters[1]);
-        std::cout << " Enter amount:  ";
-        std::cin >> std::ws;
-        std::getline(std::cin, parameters[2]);
-
-        auto results = _hotelPtr->executeCommand(selectedCommand, parameters);
-        if (results.has_value())
-          _logger << "Received reply: \"" + std::any_cast<const std::string &>(results) + '"';
-      }
-
-    } while (true);
+    } while (true && shutdown != -1);
 
     _logger << "Ending session and terminating";
   }

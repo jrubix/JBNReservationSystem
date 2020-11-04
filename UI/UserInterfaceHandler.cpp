@@ -1,9 +1,7 @@
 #include "UI/UserInterfaceHandler.hpp"
 
 #include <memory>    // unique_ptr, make_unique
-
 #include "TechnicalServices/Persistence/PersistenceHandler.hpp"
-
 #include "UI/SimpleUI.hpp"
 
 

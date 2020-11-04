@@ -11,14 +11,9 @@
 #include "TechnicalServices/Persistence/PersistenceHandler.hpp"
 
 
-
-
-
 namespace
 {
   // User defined manipulator with arguments that allows std::istream::ignore to be called "in-line" (chained)
-  // Usage example:
-  //    stream >> first >> ignore(',') second >> ignore('\n') ;
   struct ignore
   {
     char _seperator;
@@ -52,7 +47,6 @@ namespace TechnicalServices::Persistence
                           {"Component.Logger",    "Simple Logger"},
                           {"Component.UI",        "Simple UI"}
                         };
-
   }
 
    std::vector<std::string> SimpleDB::findRoles()
@@ -61,14 +55,10 @@ namespace TechnicalServices::Persistence
   }
 
 
-
   SimpleDB::~SimpleDB() noexcept
   {
     _logger << "Simple DB shutdown successfully";
   }
-
-
-
 
 
   UserCredentials SimpleDB::findCredentialsByName( const std::string & name )
@@ -76,8 +66,8 @@ namespace TechnicalServices::Persistence
     static std::vector<UserCredentials> storedUsers =
     {
     // Username    Pass Phrase         Authorized roles
-	 {"nidhi",       "P@ssword" , {"HotelGuest"}},
-	 {"Binh",     "asdf1234",  {"Receptionist"}},
+  	 {"nidhi",       "P@ssword" , {"HotelGuest"}},
+  	 {"Binh",     "asdf1234",  {"Receptionist"}},
     };
 
     for( const auto & user : storedUsers ) if( user.userName == name ) return user;
@@ -85,7 +75,6 @@ namespace TechnicalServices::Persistence
     // Name not found, log the error and throw something
     std::string message = __func__;
     message += " attempt to find user \"" + name + "\" failed";
-
     _logger << message;
     throw PersistenceHandler::NoSuchUser( message );
   }

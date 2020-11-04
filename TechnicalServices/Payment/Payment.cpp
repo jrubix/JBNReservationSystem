@@ -9,7 +9,7 @@ namespace TechnicalServices::Payment
   }
 
   PaymentBase::~PaymentBase() noexcept {
-    std::cout<<"Deconstructed";
+    std::cout<<"Payment Services Shutdown";
   }
 
 }
