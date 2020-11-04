@@ -25,7 +25,6 @@ namespace // anonymous (private) working area
 
   std::any signOff(Domain::Session::SessionBase &session, const std::vector<std::string> &args)
   {
-
     std::string results = "signed off successfully by " + args[0];
     session._logger << "Signing off:  " + results;
     return results;

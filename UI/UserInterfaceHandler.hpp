@@ -14,10 +14,8 @@ namespace UI
       struct   UIException  : std::runtime_error {using runtime_error::runtime_error;};
       struct   BadUIRequest : UIException        {using UIException  ::UIException;  };
 
-
       // User Interface Factory, throws BadUIRequest
       static std::unique_ptr<UserInterfaceHandler> createUI();                                 // must be static
-
 
       // Operations, throws UIException
       virtual void launch() = 0;                                                               // must be virtual and pure

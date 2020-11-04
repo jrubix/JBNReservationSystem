@@ -32,16 +32,13 @@ namespace TechnicalServices::Persistence
       PersistenceHandler & operator=( const PersistenceHandler & ) = delete;
       static  PersistenceHandler & instance();
 
-
       // Operations
        virtual std::vector<std::string> findRoles()                                       = 0;   // Returns list of all legal roles
 	  virtual UserCredentials          findCredentialsByName( const std::string & name ) = 0;   // Returns credentials for specified user, throws NoSuchUser if user not found
 
-
       // Adaptation Data read only access.  Adaptation data is a Key/Value pair
       // Throws NoSuchProperty
       virtual const std::string & operator[]( const std::string & key ) const = 0;
-
 
       // Destructor
       // Pure virtual destructor helps force the class to be abstract, but must still be implemented

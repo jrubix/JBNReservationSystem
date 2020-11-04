@@ -8,9 +8,9 @@
 
 namespace Domain::Hotel
 {
-
+  //initializes roominfo lookup, pricing lookup and commands
   HotelBase::HotelBase() : _loggerPtr(std::make_unique<TechnicalServices::Logging::SimpleLogger>())
-  {
+  {         //room #. , type ,  occupancy , guest occupied by
     roomInfo = {{"120", "Queen", "Available", ""},
                 {"121", "King", "Occupied", "Rebecca Gamble"},
                 {"122", "Two Queens", "Available", ""},
@@ -18,7 +18,7 @@ namespace Domain::Hotel
                 {"124", "Suite", "Available", ""},
                 {"125", "King", "Occupied", "Sam Smith"},
                 {"126", "Queen", "Occupied", "John Doe"}};
-
+            //item, price
     pricing = {{"Coke can", 5}, {"Queen", 89}, {"Two Queens", 130}, {"Suite", 189}, {"King", 90}};
 
     _commandDispatch["Unassign room"] = &HotelBase::unassignHotelRoom;
@@ -29,6 +29,8 @@ namespace Domain::Hotel
 
     _logger << "Hotel being used and has been successfully initialized";
   }
+
+  //adds costs to a room
   std::any HotelBase::addCostHotel(const std::vector<std::string> &args)
   {
     std::string result;
@@ -36,6 +38,7 @@ namespace Domain::Hotel
     return {result};
   }
 
+  //hotel price lookup, uses map
   double HotelBase::getPrice(std::string name)
   {
     auto result = pricing.find(name);
@@ -43,6 +46,7 @@ namespace Domain::Hotel
     return result->second;
   }
 
+  //execute the hotel commands, works as session dispatch
   std::any HotelBase::executeCommand(const std::string &command, const std::vector<std::string> &args)
   {
     std::string parameters;
@@ -60,8 +64,6 @@ namespace Domain::Hotel
       throw BadCommand(message);
     }
 
-    //std::cout << args[0];
-
     auto results = (*this.*(it->second))(args);
     if (results.has_value())
     {
@@ -72,12 +74,14 @@ namespace Domain::Hotel
     return results;
   }
 
+  //charge guest
   std::any HotelBase::pay(const std::vector<std::string> &args)
   {
     std::string result = "Payment of $" + args[2] + " for room " + args[0] + " by " + args[1] + " received successfully.";
     return {result};
   }
 
+  //checks if guest room is confirmed available- checkout successful
   std::string HotelBase::checkoutHotel(const std::string number)
   {
     int vecsize = roomInfo.size() - 1;
@@ -161,7 +165,6 @@ namespace Domain::Hotel
   //removes the room from available
   std::any HotelBase::reserveHotelRoom(const std::vector<std::string> &args)
   {
-    //arg[0] = roomtype arg[1] = room number
     int vecsize = roomInfo.size() - 1;
     std::string reservesuccess;
     for (int i = 0; i < vecsize; i++)
@@ -190,9 +193,7 @@ namespace Domain::Hotel
   //checks for available rooms with date and prices
   std::any HotelBase::askAvailableRoom(const std::vector<std::string> &args)
   {
-
     std::string rinfo;
-
     int vecsize = roomInfo.size() - 1;
     for (int i = 0; i < vecsize; i++)
     {

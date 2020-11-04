@@ -3,7 +3,6 @@
 
 namespace TechnicalServices::Payment
 {
-
   class PaymentBase : public TechnicalServices::Payment::PaymentHandler {
     public:
       std::string payHotel() override;
@@ -11,5 +10,4 @@ namespace TechnicalServices::Payment
 
     private:
   };
-
 }

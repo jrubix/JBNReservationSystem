@@ -5,7 +5,6 @@
 
 namespace TechnicalServices::Payment
 {
-
   class PaymentHandler
   {
   public:
@@ -15,5 +14,4 @@ namespace TechnicalServices::Payment
 
   private:
   };
-
 } // namespace TechnicalServices::Payment

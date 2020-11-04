@@ -6,18 +6,12 @@
 #include <string>
 
 #include "Domain/Session/Session.hpp"
-
 #include "TechnicalServices/Persistence/PersistenceHandler.hpp"
-
-
 
 
 namespace Domain::Session
 {
   SessionHandler::~SessionHandler() noexcept = default;
-
-
-
 
   // returns a specialized object specific to the specified role
   std::unique_ptr<SessionHandler> SessionHandler::createSession( const UserCredentials & credentials )

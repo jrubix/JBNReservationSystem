@@ -5,7 +5,6 @@ namespace TechnicalServices::Persistence
 {
   PersistenceHandler::~PersistenceHandler() noexcept = default;
 
-
   PersistenceHandler & PersistenceHandler::instance()
   {
     // Can't read the DB component preference from the database because the DB has not yet been created. So choosing the database

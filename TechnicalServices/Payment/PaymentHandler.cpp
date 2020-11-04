@@ -1,5 +1,6 @@
 #include "TechnicalServices/Payment/Payment.hpp"
 #include "TechnicalServices/Payment/PaymentHandler.hpp"
+
 namespace TechnicalServices::Payment
 {
   PaymentHandler::~PaymentHandler() noexcept = default;

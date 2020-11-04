@@ -32,7 +32,6 @@ namespace TechnicalServices::Persistence
       // This line must be physically after the definition of _loggerPtr
       TechnicalServices::Logging::LoggerHandler & _logger = *_loggerPtr;
 
-
       // Property data (Key/Value pairs) off-line modifiable by the end-user
       using AdaptationData = std::map<std::string /*Key*/, std::string /*Value*/>;
       AdaptationData _adaptablePairs;

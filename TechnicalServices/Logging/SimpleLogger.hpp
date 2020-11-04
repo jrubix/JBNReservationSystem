@@ -21,15 +21,9 @@ namespace TechnicalServices::Logging
       // Destructor
       ~SimpleLogger() noexcept override;
 
-
     protected:
       std::ostream & _loggingStream;
   }; // class SimpleLogger
-
-
-
-
-
 
   /*****************************************************************************
   ** Inline implementations
@@ -47,13 +41,10 @@ namespace TechnicalServices::Logging
     *this << "Simple Logger being used and has been successfully initialized";
   }
 
-
   inline SimpleLogger::~SimpleLogger() noexcept
   {
     *this << "Simple Logger shutdown successfully";
   }
-
-
 
   inline SimpleLogger & SimpleLogger::operator<< ( const std::string & message )
   {

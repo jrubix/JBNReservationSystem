@@ -9,7 +9,6 @@
 #include <vector>
 
 #include "Domain/Session/SessionHandler.hpp"
-
 #include "TechnicalServices/Logging/LoggerHandler.hpp"
 #include "TechnicalServices/Persistence/PersistenceHandler.hpp"
 #include "Domain/Hotel/HotelHandler.hpp"
@@ -32,6 +31,7 @@ namespace UI
     _logger << "Simple UI shutdown successfully";
   }
 
+  //company logo
   void SimpleUI::logo()
   {
     std::cout << "\n\n"
@@ -56,9 +56,7 @@ namespace UI
     auto &selectedRole = credentials.roles[0];                     // convenience alias
 
     std::unique_ptr<Domain::Session::SessionHandler> sessionControl;
-
     int shutdown = 0;
-
     do
     {
       std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -119,7 +117,7 @@ namespace UI
           selectedCommand = commands[menuSelection];
           _logger << "Command selected \"" + selectedCommand + '"';
 
-          /******************************************************************************************************************************
+      /******************************************************************************************************************************
       **  5) The user interface will collect relevant information to execute the chosen command.  This section requires the UI to
       **     know what information to collect, and hence what the available commands are.  Our goal is loose (minimal) coupling, not
       **     no coupling. This can be achieved in a variety of ways, but one common way is to pass strings instead of strong typed
@@ -167,25 +165,9 @@ namespace UI
               _logger << "Received reply: \"" + std::any_cast<const std::string &>(results) + '"';
           }
 
-          ///////////////////making payment...in...reserveroom scenario////////////
-          // else if (selectedCommand == "Make Payment")
-          // {
-          //   std::vector<std::string> parameters(1);
-
-          //   std::cout << " payment done by:  ";
-          //   std::cin >> std::ws;
-          //   std::getline(std::cin, parameters[0]);
-
-          //   auto results = sessionControl->executeCommand(selectedCommand, parameters);
-          //   if (results.has_value())
-          //     _logger << "Received reply: \"" + std::any_cast<const std::string &>(results) + '"';
-          // }
-
-          ///////////////////////////////
+          //signoff
           else if (selectedCommand == "Sign Off")
-
           {
-
             std::vector<std::string> parameters(1);
 
             parameters[0] = credentials.userName;
@@ -205,11 +187,11 @@ namespace UI
             std::cin >> std::ws;
             std::getline(std::cin, parameters[0]);
 
-            // std::string roomnumber = parameters[0];
             auto results = _hotelPtr->executeCommand(selectedCommand, parameters);
             if (results.has_value())
               _logger << "Received reply: \"" + std::any_cast<const std::string &>(results) + '"';
           }
+          //or adding additional costs
           else if (selectedCommand == "Add additional cost")
           {
             std::vector<std::string> parameters(3);
@@ -228,6 +210,8 @@ namespace UI
             if (results.has_value())
               _logger << "Received reply: \"" + std::any_cast<const std::string &>(results) + '"';
           }
+
+          //for pay function
           else if (selectedCommand == "Pay")
           {
             std::vector<std::string> parameters(3);
@@ -257,7 +241,6 @@ namespace UI
       }
 
     } while (true && shutdown != -1);
-
     _logger << "Ending session and terminating";
   }
 } // namespace UI

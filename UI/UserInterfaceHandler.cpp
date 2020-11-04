@@ -5,15 +5,12 @@
 #include "UI/SimpleUI.hpp"
 
 
-
-
 namespace UI {
   UserInterfaceHandler::~UserInterfaceHandler() noexcept = default;
 
   std::unique_ptr<UserInterfaceHandler> UserInterfaceHandler::createUI()
   {
     auto & persistantData = TechnicalServices::Persistence::PersistenceHandler::instance();
-
     return std::make_unique<UI::SimpleUI>();
   }
 }    // namespace UI

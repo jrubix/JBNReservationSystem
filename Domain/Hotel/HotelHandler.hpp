@@ -8,7 +8,6 @@
 
 namespace Domain::Hotel
 {
-
   class HotelHandler
   {
   public:

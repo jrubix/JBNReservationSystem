@@ -19,15 +19,12 @@ namespace
     char _seperator;
     ignore( char delimiter = '\n' ) : _seperator( delimiter ) {}
   };
-
   std::istream & operator>>( std::istream & s, ignore && delimiter )
   {
     s.ignore( std::numeric_limits<std::streamsize>::max(), delimiter._seperator );
     return s;
   }
 }    // namespace
-
-
 
 
 namespace TechnicalServices::Persistence
@@ -54,12 +51,10 @@ namespace TechnicalServices::Persistence
     return {"Receptionist", "HotelGuest"};
   }
 
-
   SimpleDB::~SimpleDB() noexcept
   {
     _logger << "Simple DB shutdown successfully";
   }
-
 
   UserCredentials SimpleDB::findCredentialsByName( const std::string & name )
   {
@@ -78,9 +73,6 @@ namespace TechnicalServices::Persistence
     _logger << message;
     throw PersistenceHandler::NoSuchUser( message );
   }
-
-
-
 
   const std::string & SimpleDB::operator[]( const std::string & key ) const
   {
