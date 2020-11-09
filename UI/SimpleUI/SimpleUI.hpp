@@ -4,7 +4,7 @@
 
 #include "TechnicalServices/Logging/LoggerHandler.hpp"
 #include "TechnicalServices/Persistence/PersistenceHandler.hpp"
-#include "UI/UserInterfaceHandler.hpp"
+#include "UI/SimpleUI/UserInterfaceHandler.hpp"
 #include "Domain/Hotel/HotelHandler.hpp"
 
 namespace UI

@@ -4,7 +4,7 @@
 #include <new>          // bad_alloc
 #include <typeinfo>     // typeinfo.name()
 
-#include "UI/UserInterfaceHandler.hpp"
+#include "UI/SimpleUI/UserInterfaceHandler.hpp"
 
 
 int main( /*int argc, char argv[] */ ){
