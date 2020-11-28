@@ -31,7 +31,7 @@ namespace // anonymous (private) working area
 
 namespace Domain::Session
 {
-  SessionBase::SessionBase(const std::string &description, const UserCredentials &credentials) : _credentials(credentials), _name(description)
+  SessionBase::SessionBase(const std::string &description, const UserCredentials &credentials) : _credentials(credentials), _name(description), _hotelPtr(Domain::Hotel::HotelHandler::createHotel())
   {
     _logger << "Session \"" + _name + "\" being used and has been successfully initialized";
 		

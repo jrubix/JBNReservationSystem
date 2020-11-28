@@ -34,7 +34,7 @@ namespace Domain::Session
     std::unique_ptr<TechnicalServices::Logging::LoggerHandler> _loggerPtr = TechnicalServices::Logging::LoggerHandler::create();
 
 	//for hotel interface...
-	std::unique_ptr<Domain::Hotel::HotelHandler> _hotelPtr = Domain::Hotel::HotelHandler::createHotel();
+	//std::unique_ptr<Domain::Hotel::HotelHandler> _hotelPtr = Domain::Hotel::HotelHandler::createHotel();
    
 	TechnicalServices::Logging::LoggerHandler &_logger = *_loggerPtr;
 
@@ -43,6 +43,7 @@ namespace Domain::Session
     DispatchTable _commandDispatch;
     DispatchTable _startingCommands;
     std::vector<std::string> _commandList;
+	std::unique_ptr<Domain::Hotel::HotelHandler> _hotelPtr;
   }; // class SessionBase
 
   struct ReceptionistSession : SessionBase
