@@ -20,7 +20,7 @@ namespace Domain::Room
     virtual void setRoomDesc(std::string temp) = 0;
     virtual void setRoomOccu(int temp) = 0;
 
-    virtual ~RoomSpecification() noexcept = 0;
+    virtual ~RoomSpecification() = 0;
 
   private:
     float price;
@@ -28,5 +28,5 @@ namespace Domain::Room
     int occupancy;
     //std::vector<int> roomnums;
   };
-
+  inline RoomSpecification::~RoomSpecification() {}
 }// namespace Domain::Room
