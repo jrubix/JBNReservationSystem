@@ -72,23 +72,5 @@ namespace Domain::Room
 
     ~DoubleKing(){}
   };
-
-
-  float RoomSpecification::getRoomPrice(){ return price; }
-  std::string RoomSpecification::getRoomType(){ return type; }
-  std::string RoomSpecification::getRoomDesc(){ return description; }
-  int RoomSpecification::getRoomOccu(){ return occupancy; }
-
-  void RoomSpecification::setRoomPrice(float temp){ price = temp; }
-  void RoomSpecification::setRoomType(std::string temp){ type = temp; }
-  void RoomSpecification::setRoomDesc(std::string temp){ description = temp; }
-  void RoomSpecification::setRoomOccu(int temp){ occupancy = temp; }
-
-  RoomSpecification::RoomSpecification(float rnum, std::string type_, std::string desc_, int occ_){
-    price = rnum;
-    type = type_;
-    description = desc_;
-    occupancy = occ_;
-  }
-
+  
 } // namespace Domain::Room
