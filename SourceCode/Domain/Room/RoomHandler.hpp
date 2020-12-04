@@ -19,6 +19,7 @@ namespace Domain::Room
     {
       using RoomException::RoomException;
     };
+    virtual std::string askavailableroom(std::string date, int guestnum, int nights) = 0;
 
     virtual ~RoomHandler() noexcept = 0;
 
