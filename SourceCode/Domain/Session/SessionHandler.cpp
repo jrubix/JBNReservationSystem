@@ -7,6 +7,7 @@
 
 #include "Domain/Session/Session.hpp"
 #include "TechnicalServices/Persistence/PersistenceHandler.hpp"
+#include "Domain/Hotel/HotelHandler.hpp"
 
 
 namespace Domain::Session
@@ -45,7 +46,7 @@ namespace Domain::Session
         )
       {
         // 2) If authenticated user is authorized for the selected role, create a session specific for that role
-        if( credentials.roles[0] == "Receptionist"      ) return std::make_unique<Domain::Session::ReceptionistSession>     ( credentials );
+        if( credentials.roles[0] == "Receptionist"      )   return std::make_unique<Domain::Session::ReceptionistSession>     ( credentials );
         if( credentials.roles[0] == "HotelGuest"          ) return std::make_unique<Domain::Session::HotelGuestSession>    ( credentials );
 
         throw std::logic_error( "Invalid role requested in function " + std::string(__func__) ); // Oops, should never get here but ...  Throw something

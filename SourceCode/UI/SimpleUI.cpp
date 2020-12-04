@@ -22,7 +22,7 @@ namespace UI
 {
   // Default constructor
   SimpleUI::SimpleUI()
-  :  
+  :
     _loggerPtr     ( TechnicalServices::Logging::LoggerHandler::create()            ),
     _persistentData( TechnicalServices::Persistence::PersistenceHandler::instance() )
   {
@@ -145,13 +145,13 @@ namespace UI
         std::cout << " Enter hotelguest number:   ";  std::cin >> std::ws;  std::getline( std::cin, parameters[2] );
 
         auto results = sessionControl->executeCommand( selectedCommand, parameters );
-		
+
         if( results.has_value() ) _logger << "Received reply: \"" + std::any_cast<const std::string &>( results ) + '"';
       }
-      
+
 	  ////////////////////for Reserving room/////////////////
-      else if( selectedCommand == "Reserve Room" ) 
-	    
+      else if( selectedCommand == "Reserve Room" )
+
 	  {
 		std::vector<std::string> parameters( 2 );
 
@@ -246,7 +246,7 @@ namespace UI
 
         } while (selection < 3);
       }
-	  
+
     } while( true );
 
     _logger << "Ending session and terminating";

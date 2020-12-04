@@ -195,6 +195,11 @@ namespace Domain::Hotel
   //checks for available rooms with date and prices
   std::any HotelBase::askAvailableRoom(const std::vector<std::string> &args)
   {
+
+    //pointer to room cata
+
+
+
     std::string rinfo;
     int vecsize = roomInfo.size() - 1;
     for (int i = 0; i < vecsize; i++)

@@ -16,16 +16,17 @@ namespace Domain::Hotel
   class HotelBase : public Domain::Hotel::HotelHandler
   {
   public:
-    std::any addCostHotel(const std::vector<std::string> &args) override;
-    std::any pay(const std::vector<std::string> &args) override;
-    std::string checkoutHotel(const std::string number) override;
-    std::string printAllRooms(std::string onlyavail) override;
-    std::any reserveHotelRoom(const std::vector<std::string> &args) override;
-    std::any unassignHotelRoom(const std::vector<std::string> &args) override;
-    std::string assignHotelRoom(const std::string name, const std::string number) override;
-    std::any askAvailableRoom(const std::vector<std::string> &args) override;
+    std::any addCostHotel(const std::vector<std::string> &args);
+    std::any pay(const std::vector<std::string> &args);
+    std::string checkoutHotel(const std::string number);
+    std::string printAllRooms(std::string onlyavail);
+    std::any reserveHotelRoom(const std::vector<std::string> &args);
+    std::any unassignHotelRoom(const std::vector<std::string> &args);
+    std::string assignHotelRoom(const std::string name, const std::string number);
+    std::any askAvailableRoom(const std::vector<std::string> &args);
+    double getPrice(std::string name);
+
     std::any executeCommand(const std::string &command, const std::vector<std::string> &args) override;
-    double getPrice(std::string name) override;
 
     HotelBase();
     ~HotelBase() noexcept override;

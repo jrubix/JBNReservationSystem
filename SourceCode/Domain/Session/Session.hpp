@@ -7,6 +7,7 @@
 
 #include "Domain/Session/SessionHandler.hpp"
 #include "TechnicalServices/Logging/LoggerHandler.hpp"
+#include "Domain/Hotel/HotelHandler.hpp"
 
 namespace Domain::Session
 {
@@ -31,22 +32,28 @@ namespace Domain::Session
 
     // Instance Attributes
     std::unique_ptr<TechnicalServices::Logging::LoggerHandler> _loggerPtr = TechnicalServices::Logging::LoggerHandler::create();
-    TechnicalServices::Logging::LoggerHandler &_logger = *_loggerPtr;
+
+	//for hotel interface...
+	//std::unique_ptr<Domain::Hotel::HotelHandler> _hotelPtr = Domain::Hotel::HotelHandler::createHotel();
+
+	TechnicalServices::Logging::LoggerHandler &_logger = *_loggerPtr;
 
     UserCredentials const _credentials;
     std::string const _name = "Undefined";
     DispatchTable _commandDispatch;
     DispatchTable _startingCommands;
     std::vector<std::string> _commandList;
+	std::unique_ptr<Domain::Hotel::HotelHandler> _hotelPtr;
   }; // class SessionBase
 
   struct ReceptionistSession : SessionBase
   {
     ReceptionistSession(const UserCredentials &credentials);
+
   };
   struct HotelGuestSession : SessionBase
   {
-    HotelGuestSession(const UserCredentials &credentials);
+    HotelGuestSession(const UserCredentials &credentials);// retrieves the list of actions (commands)
   };
 
 } // namespace Domain::Session

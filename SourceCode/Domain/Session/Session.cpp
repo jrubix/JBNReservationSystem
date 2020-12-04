@@ -1,10 +1,9 @@
 #include "Domain/Session/Session.hpp"
-#include "Domain/Hotel/HotelHandler.hpp"
-#include "Domain/Hotel/Hotel.hpp"
+
+//#include "Domain/Hotel/Hotel.hpp"
 #include <string>
 #include <any>
 #include <vector>
-#include <memory>   // unique_ptr, make_unique<>()
 
 namespace // anonymous (private) working area
 {
@@ -15,7 +14,7 @@ namespace // anonymous (private) working area
     return {};                                                                                                 \
   } // Stubbed for now
 
-  
+
 
   STUB(Help)
   STUB(assignRoom)
@@ -32,12 +31,10 @@ namespace // anonymous (private) working area
 
 namespace Domain::Session
 {
-  SessionBase::SessionBase(const std::string &description, const UserCredentials &credentials) : _credentials(credentials), _name(description)
+  SessionBase::SessionBase(const std::string &description, const UserCredentials &credentials) : _credentials(credentials), _name(description), _hotelPtr(Domain::Hotel::HotelHandler::createHotel())
   {
     _logger << "Session \"" + _name + "\" being used and has been successfully initialized";
-	
 
-	
   }
 
   SessionBase::~SessionBase() noexcept
@@ -49,7 +46,6 @@ namespace Domain::Session
   {
 	  /*std::vector<std::string> availableCommands;
 	  availableCommands.reserve(_commandList.size());
-
 	 for (const auto& [command] : _commandList)
 		  availableCommands.emplace_back(command);*/
 
@@ -60,7 +56,6 @@ namespace Domain::Session
   {
 	  std::vector<std::string> argument;
 	  argument = args;
-	  auto _hotelPtr = Domain::Hotel::HotelHandler::createHotel();
     std::string parameters;
     for (const auto &arg : args)
       parameters += '"' + arg + "\"  ";
@@ -70,14 +65,9 @@ namespace Domain::Session
     if (it == _commandDispatch.end())
     {
 		//no command from session.. have to find in hotel..
-		//create the hotel pointer here
-		//std::unique_ptr<Domain::Hotel::HotelHandler> _hotelPtr;
-		//auto _hotelPtr = Domain::Hotel::HotelHandler::createHotel();
 		auto results = _hotelPtr->executeCommand(command, argument);
 
 		///fialure in finding commands...
-		//if(results == "failed")
-		//bool resulthas = results.has_value();
 		if (!(results.has_value()) && it == _commandDispatch.end())
 		{
 			std::string message = __func__;
@@ -95,7 +85,7 @@ namespace Domain::Session
     }
 
 	//for session functions.. execution call
-	if (it != _commandDispatch.end())
+	else if (it != _commandDispatch.end())
 	{
 		auto results = it->second(*this, args);
 		if (results.has_value())
@@ -106,9 +96,6 @@ namespace Domain::Session
 		return results;
 	}
 
-    
-
-    
   }
 
   /////////////////////Hotel Guest//////////////////////////////////
